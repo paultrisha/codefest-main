@@ -1,0 +1,31 @@
+<header class="md-top-bar md-top-bar--blue" role="navigation">
+	<div class="md-top-bar__container">
+	  <div class="md-top-bar__brand">
+		<a class="md-brand" href="/">
+		  <div class="md-brand__logo md-brand__logo--pad">
+			  <img src="assets/cisco_logo_white.png" alt="Cisco">
+		  </div>
+		  <div class="md-brand__title">Webex</div>
+		</a>
+	  </div>
+	  <nav class="md-top-bar__nav ">
+		<div class="md-list md-list--horizontal" role="list">
+		  <div class="md-list-item" role="listItem">
+			  <div class="md-avatar md-avatar--active" title={{userName}}>
+				  <span class="md-avatar__letter">{{userInitials}}</span>
+			  </div>
+		  </div>
+		  <div class="md-list-item" role="listItem">
+			  <span>Welcome {{userName}} !</span>
+		  </div>
+		</div>
+	  </nav>
+	  <div class="md-top-bar__right ">
+		 <div class="md-top-bar__user">
+		  <button type="button" id="logout" class="md-button md-button--red" (click)="logout()">Logout</button>
+		 </div>
+	  </div>
+	</div>
+  </header>
+  <app-dialog *ngIf="showAlertMessage" [showOk]="true" [showCancel]="false" [modalMessage]="dialogMessage"
+	  (okDialogEvent)="okDialogAction()"></app-dialog>
