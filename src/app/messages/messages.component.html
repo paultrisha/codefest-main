@@ -1,0 +1,46 @@
+<div class="row">
+	<div class="md-button__container--small">
+		<button class="md-button md-button--circle md-button--56 md-activity md-activity__meetings" alt="meetings"
+			type="button" aria-label="meetings" (click)="call()">
+			<span class="md-button__children">
+				<i class="icon icon-meetings_24"></i>
+			</span>
+		</button>
+	</div>
+	<b>{{name}}</b>
+	<button style="margin-left: 15px;" class="md-button md-button--circle md-button--32 md-button--white" (click)="addPeople()" type="button">
+		<span style="opacity: 1;"><i class="md-icon icon icon-add_24"></i></span>
+	</button>
+</div>
+
+<hr />
+<div class="md">
+	<div class="container">
+		<div id="messages" *ngFor="let message of messages">
+			<div id="senderDiv">
+				<span>{{message.personEmail}}</span>
+				<span> {{message.created}} </span>
+			</div>
+			<div id="messageContent">
+				<span>{{message.text}}</span>
+			</div>
+		</div>
+		<!-- <div *ngIf="loader" id="loading">
+			<i id="loading-image" class="md-spinner md-spinner--56 md-spinner--blue"></i>
+		</div> -->
+	</div>
+</div>
+<div>
+	<div class="md-input-group medium-6 columns">
+		<input class="md-input" id="message" type="text" placeholder="Type your message" [(ngModel)]="message">
+	</div>
+	<button type="button" class="md-button md-button--blue" id="sendMessage" 
+		(click)="sendMessageToSpace()">Send</button>
+</div>
+<app-dialog *ngIf="showAlertMessage" [showOk]="true" [showCancel]="false" [modalMessage]="dialogMessage"
+	(okDialogEvent)="okDialogAction()"></app-dialog>
+
+<app-add-participant *ngIf="showCreateRoomModal" (showModalEvent)="createModalReceiveMessage($event)" [modalMessage]="roomId"
+	(saveModalEvent)="updateRoom($event)"></app-add-participant>
+
+<app-call *ngIf="showCallModal" (showModalEvent)="callModalReceiveMessage($event)" [modalMessage]="roomId" [modalName]="name"></app-call>

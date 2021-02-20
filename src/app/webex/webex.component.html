@@ -1,4 +1,7 @@
-<div *ngIf="loader" id="add_loading">
-	<i id="add_loading_image" class="md-spinner md-spinner--56 md-spinner--blue"></i>
-</div>
 <app-header></app-header>
+<div class="wrapper">
+        <app-sidebar></app-sidebar>
+	<div class="context" id="content">
+		<router-outlet></router-outlet>
+    </div>
+</div>

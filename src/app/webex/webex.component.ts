@@ -15,5 +15,4 @@ export class WebexComponent implements OnInit {
   ngOnInit() {
 	this.webexService.beforeLogin();
   }
-
 }

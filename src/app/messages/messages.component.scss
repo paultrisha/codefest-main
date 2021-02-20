@@ -1,0 +1,27 @@
+h1 {
+  text-align: center;
+  font-family: CiscoSansTT Regular;
+  font-size: 20pt;
+}
+
+#senderDiv {
+  font-family: CiscoSansTT Regular;
+  font-size: 12pt;
+}
+
+#messages {
+  padding-left: 20px;
+  padding-bottom: 20px;
+}
+
+#messageContent {
+  font-family: CiscoSansTT Regular;
+  font-size: 14pt;
+}
+
+.container {
+  margin-right: 15px;
+  margin-left: 15px;
+  overflow: scroll;
+  height: 675px;
+}

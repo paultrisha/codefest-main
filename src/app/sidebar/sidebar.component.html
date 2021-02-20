@@ -1,0 +1,29 @@
+<div *ngIf="loader" id="add_loading">
+	<i id="add_loading_image" class="md-spinner md-spinner--56 md-spinner--blue"></i>
+</div>
+<div id="sidebarDiv"
+	class="md-sidebar md-sidebar--dark md-sidebar md-sidebar--global md-sidebar--indented md-sidebar--nested md-sidebar--expanded">
+	<div class="md-sidebar__body">
+		<div style="padding-left: 85px; padding-top: 12px;">
+			<button class="md-button md-button--circle md-button--32 md-button--white" (click)="createspace()" type="button">
+				<span style="opacity: 1;"><i class="md-icon icon icon-add_24"></i></span>
+			</button>
+			<!-- <button class="md-button md-button--circle md-button--32 md-button--white" (click)="loadContacts()" type="button">
+				<span style="opacity: 1;"><i class="md-icon icon icon-refresh_24"></i></span>
+			</button> -->
+		</div>
+		<div class="md-sidebar-nav">
+			<div class="md-list md-list--vertical md-sidebar-nav__group md-sidebar-nav__group--primary" role="list">
+				<a class="md-list-item" id="md-sidebar__nav-item-1-9" role="listitem"
+					data-md-event-key="md-sidebar__nav-item-1-9" *ngFor="let rooms of room" [routerLink]="['/message', { roomId : rooms.id, name : rooms.title }]">
+					<div class="md-list-item__center">{{rooms.title}}</div>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+<app-rooms *ngIf="showCreateRoomModal" (showModalEvent)="createModalReceiveMessage($event)"
+	(saveModalEvent)="updateRoom($event)"></app-rooms>
+<app-dialog *ngIf="showAlertMessage" [showDialogSpinner]="addLoader" [showOk]=true [showCancel]="false"
+	[modalMessage]="dialogMessage" (okDialogEvent)="okOrCancelDialogAction()"
+	(cancelDialogEvent)="okOrCancelDialogAction()"></app-dialog>

@@ -3,11 +3,10 @@ import { environment } from 'src/environments/environment';
 import Webex from 'webex';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WebexService {
-
-  constructor() { }
+  constructor() {}
 
   webex;
 
@@ -61,8 +60,41 @@ export class WebexService {
     return this.webex.people.get('me');
   }
 
+  async createRoom(roomName) {
+    return this.webex.rooms.create({ title: roomName });
+  }
+
+  async sendMessage(message, selectedRoomId) {
+    return this.webex.messages.create({
+      markdown: message,
+      roomId: selectedRoomId,
+    });
+  }
+
+  async addMember(selectedRoomId, memberEmail) {
+    return this.webex.memberships.create({
+      roomId: selectedRoomId,
+      personEmail: memberEmail,
+    });
+  }
+
+  async listRoom() {
+    return this.webex.rooms.list();
+  }
+
+  async listMessage(roomId) {
+    return this.webex.messages.list({ roomId: roomId });
+  }
+
   logout() {
     this.webex.logout();
     localStorage.removeItem('access_token');
+  }
+
+  async meetingRegister() {
+    return this.webex.meetings.register();
+  }
+  async singleDial(destination) {
+    return this.webex.meetings.create(destination);
   }
 }
