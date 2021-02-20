@@ -4,7 +4,6 @@ import {
   Input,
   OnInit,
   Output,
-  ViewChild,
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { WebexService } from '../services/webex.service';
@@ -17,7 +16,6 @@ import { WebexService } from '../services/webex.service';
 export class AddParticipantComponent implements OnInit {
   constructor(private webexService: WebexService) {}
 
-  @ViewChild(NgForm) ngForm: NgForm;
   @Input() modalMessage;
   @Output() showModalEvent = new EventEmitter<boolean>();
   @Output() saveModalEvent = new EventEmitter<boolean>();
@@ -32,7 +30,7 @@ export class AddParticipantComponent implements OnInit {
 
   ngOnInit() {}
 
-  addPeople(form: NgForm) {
+  addPeople() {
     if (this.people && this.modalMessage) {
       this.loader = true;
       this.webexService

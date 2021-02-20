@@ -3,9 +3,7 @@ import {
   EventEmitter,
   OnInit,
   Output,
-  ViewChild,
 } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { WebexService } from '../services/webex.service';
 
 @Component({
@@ -16,7 +14,6 @@ import { WebexService } from '../services/webex.service';
 export class RoomsComponent implements OnInit {
   constructor(private webexService: WebexService) {}
 
-  @ViewChild(NgForm) ngForm: NgForm;
   @Output() showModalEvent = new EventEmitter<boolean>();
   @Output() saveModalEvent = new EventEmitter<boolean>();
 
@@ -31,7 +28,7 @@ export class RoomsComponent implements OnInit {
 
   ngOnInit() {}
 
-  addRoom(form: NgForm) {
+  addRoom() {
     if (this.roomName) {
       this.loader = true;
       this.webexService
