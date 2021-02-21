@@ -97,4 +97,11 @@ export class WebexService {
   async singleDial(destination) {
     return this.webex.meetings.create(destination);
   }
+  async isRegistered() {
+	  return this.webex.meetings.registered;
+  }
+  async meetingDeregister() {
+	return this.webex.internal.mercury.disconnect()
+      .then(() => this.webex.internal.device.unregister());
+  }
 }

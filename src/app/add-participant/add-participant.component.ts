@@ -26,7 +26,7 @@ export class AddParticipantComponent implements OnInit {
   dialogMessage;
   loader = false;
   hasSpaceName = true;
-  spaceCreated = false;
+  memberAdded = false;
 
   ngOnInit() {}
 
@@ -38,6 +38,7 @@ export class AddParticipantComponent implements OnInit {
         .then((data) => {
           this.loader = false;
           this.people = '';
+		  this.memberAdded = true;
           this.showAlertMessage = true;
           this.dialogMessage = 'Added participant to space';
         })
@@ -52,7 +53,13 @@ export class AddParticipantComponent implements OnInit {
             this.showAlertMessage = true;
             this.dialogMessage =
               'Conversation already has maximum number of participants';
-          } else {
+          } else if(data.message.includes('User is already a participant in the room')){
+			this.loader = false;
+            this.people = '';
+            this.showAlertMessage = true;
+            this.dialogMessage =
+              'User is already a participant in the room';
+		  } else {
             this.loader = false;
             this.people = '';
             this.showAlertMessage = true;
@@ -68,7 +75,7 @@ export class AddParticipantComponent implements OnInit {
   closeModal() {
     this.showModal = false;
     this.showModalEvent.emit(this.showModal);
-    this.saveModalEvent.emit(this.spaceCreated);
+    this.saveModalEvent.emit(this.memberAdded);
   }
 
   okOrCancelDialogAction() {

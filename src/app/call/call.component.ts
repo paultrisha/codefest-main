@@ -7,6 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { resolve } from 'url';
 import { WebexService } from '../services/webex.service';
 @Component({
   selector: 'app-call',
@@ -37,6 +38,7 @@ export class CallComponent implements OnInit {
   hasSpaceName = true;
   spaceCreated = false;
   remoteShareStream;
+  localShareStream;
   sendVideo: boolean;
   sendAudio: boolean;
   audioBtn = 'Mute';
@@ -44,10 +46,12 @@ export class CallComponent implements OnInit {
 
   ngOnInit() {
     this.loader = true;
-    this.webexService.meetingRegister().then((data) => {
-      this.loader = false;
-      this.callContact();
-    });
+	// this.webexService.meetingDeregister();
+	// console.log(this.webexService.isRegistered())
+	this.webexService.meetingRegister().then((data) => {
+		this.loader = false;
+		this.callContact();
+	  });
   }
 
   closeModal() {
@@ -96,10 +100,14 @@ export class CallComponent implements OnInit {
         audio.srcObject = media.stream;
       }
       if (media.type === 'remoteShare') {
+        const rsvideo = this.remoteScreen.nativeElement;
+        rsvideo.srcObject = media.stream;
         this.remoteShareStream = media.stream;
       }
       if (media.type === 'localShare') {
-        this.selfScreen = media.stream;
+        const lsvideo = this.selfScreen.nativeElement;
+        lsvideo.srcObject = media.stream;
+        this.localShareStream = media.stream;
       }
     });
     meeting.on('media:stopped', (media) => {
@@ -115,18 +123,31 @@ export class CallComponent implements OnInit {
         const audio = this.audio.nativeElement;
         audio.srcObject = null;
       }
-	  if (media.type === 'localShare') {
-        this.selfScreen = null;
+      if (media.type === 'localShare') {
+        const lvideo = this.selfScreen.nativeElement;
+        lvideo.srcObject = null;
+      }
+      if (media.type === 'remoteShare') {
+        const rvideo = this.remoteScreen.nativeElement;
+        rvideo.srcObject = null;
       }
     });
     meeting.on('meeting:startedSharingRemote', () => {
-		const rsvideo = this.remoteScreen.nativeElement;
-        rsvideo.srcObject = this.remoteShareStream;
+      const rsvideo = this.remoteScreen.nativeElement;
+      rsvideo.srcObject = this.remoteShareStream;
     });
 
     meeting.on('meeting:stoppedSharingRemote', () => {
-		const rsvideo = this.remoteScreen.nativeElement;
-        rsvideo.srcObject = null;
+      const rsvideo = this.remoteScreen.nativeElement;
+      rsvideo.srcObject = null;
+    });
+    meeting.on('meeting:startedSharingLocal', () => {
+      const lsvideo = this.selfScreen.nativeElement;
+      lsvideo.srcObject = this.localShareStream;
+    });
+    meeting.on('meeting:stoppedSharingLocal', () => {
+      const lsvideo = this.selfScreen.nativeElement;
+      lsvideo.srcObject = null;
     });
   }
 
@@ -153,26 +174,36 @@ export class CallComponent implements OnInit {
   }
 
   hangUp() {
-    this.meeting.leave();
+	if(this.meeting){
+		this.meeting.leave();
+	}  
     this.showModal = false;
     this.showModalEvent.emit(this.showModal);
   }
 
   startSharing() {
     if (this.meeting) {
-      this.waitForMediaReady(this.meeting).then(() => {
-        console.info('SHARE-SCREEN: Sharing screen via `shareScreen()`');
-        this.meeting
-          .shareScreen()
-          .then(() => {
-            console.info('SHARE-SCREEN: Screen successfully added to meeting.');
-          })
-          .catch((e) => {
-            this.showAlertMessage = true;
-            this.dialogMessage = 'Unable to share screen';
-            console.error(e);
-          });
-      });
+      this.waitForMediaReady(this.meeting)
+        .then(() => {
+          console.info('SHARE-SCREEN: Sharing screen via `shareScreen()`');
+          this.meeting
+            .shareScreen()
+            .then(() => {
+              console.info(
+                'SHARE-SCREEN: Screen successfully added to meeting.'
+              );
+            })
+            .catch((e) => {
+              this.showAlertMessage = true;
+              this.dialogMessage = 'Unable to share screen';
+              console.error(e);
+            });
+        })
+        .catch((e) => {
+          this.showAlertMessage = true;
+          this.dialogMessage = 'Unable to share screen';
+          console.error(e);
+        });
     } else {
       this.showAlertMessage = true;
       this.dialogMessage = 'No active meeting available to share screen';
@@ -183,7 +214,16 @@ export class CallComponent implements OnInit {
     if (this.meeting) {
       this.waitForMediaReady(this.meeting)
         .then(() => {
-          this.meeting.stopShare();
+          this.meeting.stopShare()
+		  .then(() => {
+			this.showAlertMessage = true;
+            this.dialogMessage = 'Screen sharing stopped';
+		  })
+		  .catch((e) => {
+            this.showAlertMessage = true;
+            this.dialogMessage = 'No active screen sharing';
+            console.error(e);
+          });
         })
         .catch((e) => {
           this.showAlertMessage = true;
@@ -229,21 +269,33 @@ export class CallComponent implements OnInit {
   }
 
   videocheckbox() {
-    if (this.sendVideo) {
+    if (this.sendVideo && this.meeting) {
       this.sendVideo = false;
-	  this.videoBtn = 'Start video'
-    } else {
+      this.meeting.muteVideo().then(() => {
+        this.videoBtn = 'Start video';
+      });
+    } else if (!this.sendVideo && this.meeting) {
       this.sendVideo = true;
-	  this.videoBtn = 'Stop video'
+      this.meeting.unmuteVideo().then(() => {
+        this.videoBtn = 'Stop video';
+      });
     }
   }
   audiocheckbox() {
-    if (this.sendAudio) {
+    if (this.sendAudio && this.meeting) {
       this.sendAudio = false;
-	  this.audioBtn = 'Unmute'
-    } else {
+      this.meeting.muteAudio().then(() => {
+        this.audioBtn = 'Unmute';
+      });
+    } else if (!this.sendAudio && this.meeting) {
       this.sendAudio = true;
-	  this.audioBtn = 'Mute'
+      this.meeting.unmuteAudio().then(() => {
+        this.audioBtn = 'Mute';
+      });
     }
+	else {
+		this.showAlertMessage = true;
+        this.dialogMessage = 'No active meeting';
+	}
   }
 }

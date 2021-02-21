@@ -67,10 +67,7 @@ export class MessagesComponent implements OnInit {
   }
 
   sendMessageToSpace() {
-    console.log('hello');
     this.roomId = this.activatedRoute.snapshot.params['roomId'];
-    console.log(this.roomId);
-    console.log(this.message);
     if (this.roomId && this.message) {
       this.loader = true;
       this.webexService
@@ -87,7 +84,6 @@ export class MessagesComponent implements OnInit {
             this.dialogMessage = 'Error occurred while sending message'
         });
     } else {
-      console.log('no message');
       //   this.showAlertMessage = true;
       //   this.translate.get('NOMESSAGE').subscribe((value: any) => {
       //     this.dialogMessage = value;
@@ -125,9 +121,9 @@ export class MessagesComponent implements OnInit {
 	this.roomId = this.roomId;
   }
 
-  updateRoom($event) {
+  updateSpace($event) {
     if ($event) {
-      this.loadContacts();
+		//this.messages.concat( [{ personEmail: '1234',created : '', text: 'Added' }]);
     }
   }
 
