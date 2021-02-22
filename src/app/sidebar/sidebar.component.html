@@ -19,7 +19,7 @@
 		<div class="md-sidebar-nav">
 			<div class="md-list md-list--vertical md-sidebar-nav__group md-sidebar-nav__group--primary" role="list">
 				<a class="md-list-item" id="md-sidebar__nav-item-1-9" role="listitem"
-					data-md-event-key="md-sidebar__nav-item-1-9" *ngFor="let rooms of room | filter: searchText" [routerLink]="['/message', { roomId : rooms.id, name : rooms.title }]">
+					data-md-event-key="md-sidebar__nav-item-1-9" *ngFor="let rooms of room | filter: searchText" [routerLink]="['/message', { roomId : rooms.id, name : rooms.title, type : rooms.type }]">
 					<div class="md-avatar md-avatar--10" title={{rooms.title}}>
 						<span class="md-avatar__letter">{{rooms.title.charAt(0)}}</span>
 					</div>

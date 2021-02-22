@@ -15,7 +15,7 @@
 
 	<div class="align-left pull-1" style="display: inline; padding-left: 30px;">
 		<b>{{name}}</b>
-		<div style="display: inline;">
+		<div *ngIf="type == 'group'" style="display: inline;">
 			<button style="margin-left: 15px;" class="md-button md-button--circle md-button--32 md-button--white"
 				(click)="addPeople()" type="button" title="Add people">
 				<span style="opacity: 1;"><i class="md-icon icon icon-add_24"></i></span>

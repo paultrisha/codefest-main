@@ -50,6 +50,7 @@ export class SidebarComponent implements OnInit, AfterViewChecked {
 		this.room[i] = new Room();
 		this.room[i].title = item.title;
 		this.room[i].id = item.id;
+		this.room[i].type = item.type;
 		i++;
 	  }
 	 // this.selectedRoomId = this.room[0].id;

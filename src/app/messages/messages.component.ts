@@ -31,12 +31,13 @@ export class MessagesComponent implements OnInit {
   messages: Message[] = [];
   message;
   name;
+  type;
   showAlertMessage = false;
   dialogMessage;
   meeting;
   cancel: boolean = false;
   showCreateRoomModal = false;
-  room: Room[] = [{ id: '1234', title: 'Click refresh to load contacts' }];
+  room: Room[] = [{ id: '1234', title: '', type: '' }];
   webexSpace = false;
   showCallModal = false;
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
@@ -58,6 +59,7 @@ export class MessagesComponent implements OnInit {
   getMessages() {
     this.roomId = this.activatedRoute.snapshot.params['roomId'];
     this.name = this.activatedRoute.snapshot.params['name'];
+	this.type = this.activatedRoute.snapshot.params['type'];
     this.loader = true;
     this.messages = [];
     this.webexService
@@ -113,6 +115,7 @@ export class MessagesComponent implements OnInit {
           this.room[i] = new Room();
           this.room[i].title = item.title;
           this.room[i].id = item.id;
+		  this.room[i].type = item.type;
           i++;
         }
         // this.selectedRoomId = this.room[0].id;
