@@ -1,5 +1,6 @@
 import {
   Component,
+	ElementRef,
   EventEmitter,
   OnInit,
   Output,
@@ -38,9 +39,20 @@ export class MessagesComponent implements OnInit {
   room: Room[] = [{ id: '1234', title: 'Click refresh to load contacts' }];
   webexSpace = false;
   showCallModal = false;
+  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
 
   ngOnInit() {
     this.getMessages();
+  }
+  
+  ngAfterViewChecked() {
+	this.scrollToBottom();
+  }
+
+  scrollToBottom(): void {
+    try {
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch (err) { }
   }
 
   getMessages() {

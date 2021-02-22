@@ -26,8 +26,9 @@ export class SidebarComponent implements OnInit, AfterViewChecked {
   loader = false;
   dialogMessage;
   showAlertMessage = false;
+  searchText;
   
-  room: Room[] = [{ id: '1234', title: 'Click refresh to load contacts' }];
+  room: Room[] = [];
 
   ngOnInit() {
 	this.dialogMessage = 'Your contacts are on the left side !';

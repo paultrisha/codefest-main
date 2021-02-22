@@ -222,8 +222,8 @@ export class CallComponent implements OnInit {
             this.dialogMessage = 'Screen sharing stopped';
 		  })
 		  .catch((e) => {
-            this.showAlertMessage = true;
-            this.dialogMessage = 'No active screen sharing';
+            // this.showAlertMessage = true;
+            // this.dialogMessage = 'No active screen sharing';
             console.error(e);
           });
         })

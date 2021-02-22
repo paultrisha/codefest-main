@@ -13,6 +13,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { RouterModule, Routes } from '@angular/router';
 import { AddParticipantComponent } from './add-participant/add-participant.component';
 import { CallComponent } from './call/call.component';
+import { FilterPipe } from './filter.pipe';
 
 const appRoutes: Routes = [
 	// { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -34,7 +35,8 @@ const appRoutes: Routes = [
     RoomsComponent,
     MessagesComponent,
     AddParticipantComponent,
-    CallComponent
+    CallComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
