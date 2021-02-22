@@ -4,9 +4,9 @@
 <div id="sidebarDiv"
 	class="md-sidebar md-sidebar--dark md-sidebar md-sidebar--global md-sidebar--indented md-sidebar--nested md-sidebar--expanded">
 	<div class="md-sidebar__body">
-		<div style="padding-left: 85px; padding-top: 12px;">
+		<div style="padding-left: 143px; padding-top: 12px;">
 			<button class="md-button md-button--circle md-button--32 md-button--white" (click)="createspace()" type="button">
-				<span style="opacity: 1;"><i class="md-icon icon icon-add_24"></i></span>
+				<span style="opacity: 1;"><i class="md-icon icon icon-add_24" title="Create a space and/or add people"></i></span>
 			</button>
 			<!-- <button class="md-button md-button--circle md-button--32 md-button--white" (click)="loadContacts()" type="button">
 				<span style="opacity: 1;"><i class="md-icon icon icon-refresh_24"></i></span>
@@ -16,7 +16,10 @@
 			<div class="md-list md-list--vertical md-sidebar-nav__group md-sidebar-nav__group--primary" role="list">
 				<a class="md-list-item" id="md-sidebar__nav-item-1-9" role="listitem"
 					data-md-event-key="md-sidebar__nav-item-1-9" *ngFor="let rooms of room" [routerLink]="['/message', { roomId : rooms.id, name : rooms.title }]">
-					<div class="md-list-item__center">{{rooms.title}}</div>
+					<div class="md-avatar md-avatar--10" title={{rooms.title}}>
+						<span class="md-avatar__letter">{{rooms.title.charAt(0)}}</span>
+					</div>
+					<div style="padding-left: 10px;" class="md-list-item__center">{{rooms.title}}</div>
 				</a>
 			</div>
 		</div>

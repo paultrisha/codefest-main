@@ -214,6 +214,8 @@ export class CallComponent implements OnInit {
     if (this.meeting) {
       this.waitForMediaReady(this.meeting)
         .then(() => {
+			const lsvideo = this.selfScreen.nativeElement;
+			lsvideo.srcObject = null;
           this.meeting.stopShare()
 		  .then(() => {
 			this.showAlertMessage = true;

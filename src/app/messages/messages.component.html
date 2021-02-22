@@ -1,16 +1,28 @@
 <div class="row">
-	<div class="md-button__container--small">
+	<div class="md-button__container--small push-11">
 		<button class="md-button md-button--circle md-button--56 md-activity md-activity__meetings" alt="meetings"
 			type="button" aria-label="meetings" (click)="call()">
 			<span class="md-button__children">
-				<i class="icon icon-meetings_24"></i>
+				<i class="icon icon-meetings_24" title="Start meeting"></i>
 			</span>
 		</button>
 	</div>
-	<b>{{name}}</b>
+	<!-- <b>{{name}}</b>
 	<button style="margin-left: 15px;" class="md-button md-button--circle md-button--32 md-button--white" (click)="addPeople()" type="button">
 		<span style="opacity: 1;"><i class="md-icon icon icon-add_24"></i></span>
-	</button>
+	</button> -->
+
+
+	<div class="align-left pull-1" style="display: inline; padding-left: 30px;">
+		<b>{{name}}</b>
+		<div style="display: inline;">
+			<button style="margin-left: 15px;" class="md-button md-button--circle md-button--32 md-button--white"
+				(click)="addPeople()" type="button" title="Add people">
+				<span style="opacity: 1;"><i class="md-icon icon icon-add_24"></i></span>
+			</button>
+		</div>
+	</div>
+
 </div>
 
 <hr />
@@ -18,8 +30,10 @@
 	<div class="container">
 		<div id="messages" *ngFor="let message of messages.reverse()">
 			<div id="senderDiv">
-				<span><b>{{message.personEmail}}</b></span>
-				<span><b>{{message.created}}</b></span>
+				<span class="md-badge md-badge--blue-pastel">
+					<span><b><i>{{message.personEmail}}</i></b></span>
+					<span><b>{{message.created}}</b></span>
+				</span>
 			</div>
 			<div id="messageContent">
 				<span>{{message.text}}</span>
@@ -30,17 +44,21 @@
 		</div> -->
 	</div>
 </div>
+<hr class="new1">
 <div>
-	<div class="md-input-group medium-6 columns">
+	<div class="md-input-group medium-11 columns">
 		<input class="md-input" id="message" type="text" placeholder="Type your message" [(ngModel)]="message">
 	</div>
-	<button type="button" class="md-button md-button--blue" id="sendMessage" 
-		(click)="sendMessageToSpace()">Send</button>
+	<div class="align-right" style="padding-right: 15px;">
+		<button type="button" class="md-button md-button--blue" id="sendMessage"
+			(click)="sendMessageToSpace()">Send</button>
+	</div>
 </div>
 <app-dialog *ngIf="showAlertMessage" [showOk]="true" [showCancel]="false" [modalMessage]="dialogMessage"
 	(okDialogEvent)="okDialogAction()"></app-dialog>
 
-<app-add-participant *ngIf="showCreateRoomModal" (showModalEvent)="createModalReceiveMessage($event)" [modalMessage]="roomId"
-	(saveModalEvent)="updateSpace($event)"></app-add-participant>
+<app-add-participant *ngIf="showCreateRoomModal" (showModalEvent)="createModalReceiveMessage($event)"
+	[modalMessage]="roomId" (saveModalEvent)="updateSpace($event)"></app-add-participant>
 
-<app-call *ngIf="showCallModal" (showModalEvent)="callModalReceiveMessage($event)" [modalMessage]="roomId" [modalName]="name"></app-call>
+<app-call *ngIf="showCallModal" (showModalEvent)="callModalReceiveMessage($event)" [modalMessage]="roomId"
+	[modalName]="name"></app-call>

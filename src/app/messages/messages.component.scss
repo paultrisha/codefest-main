@@ -23,5 +23,23 @@ h1 {
   margin-right: 15px;
   margin-left: 15px;
   overflow: scroll;
-  height: 715px;
+  height: 655px;
+}
+.align-right {
+  text-align: right;
+}
+.align-left {
+  padding-top: 50px;
+  margin: auto;
+  font-size: 22px;
+}
+.center {
+  text-align: center;
+}
+input {
+  width: 100%;
+  border: 0;
+}
+hr.new1 {
+  border-top: 1px solid lightblue;
 }
